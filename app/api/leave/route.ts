@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
   try{
      const webhookUrl = data.action === 'request-paid-leave' 
-     ? process.env.N8N_PAID_LEAVE_WEBHOOK 
+     ? process.env.N8N_PAID_LEAVE_WEBHOOK
      : process.env.N8N_SICK_LEAVE_WEBHOOK;
 
      const n8nResponse = await fetch(webhookUrl!, {
@@ -39,7 +39,6 @@ export async function POST(request: NextRequest) {
         startDate: data.startDate,
         endDate: data.endDate,
         reason: data.reason || null
-        // datetimestamp
       })
     });
 
