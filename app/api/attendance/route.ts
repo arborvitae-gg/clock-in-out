@@ -15,8 +15,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const datetimestamp = new Date().toISOString();
-
   try {
     const n8nResponse = await fetch(process.env.N8N_ATTENDANCE_WEBHOOK!, {
       method: 'POST',
@@ -24,7 +22,6 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         email: data.email,
         action: data.action,
-        datetimestamp
       })
     });
 
