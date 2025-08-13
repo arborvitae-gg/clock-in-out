@@ -15,5 +15,28 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  return NextResponse.json({ status: 'received' });
+  const datetimestamp = new Date().toISOString();
+
+  try {
+    const n8nResponse = await fetch(process.env.N8N_ATTENDANCE_WEBHOOK!, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        action: data.action,
+        datetimestamp
+      })
+    });
+
+    if (!n8nResponse.ok) throw new Error('n8n forwarding failed');
+
+    return NextResponse.json({ status: 'received' });
+
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: 'n8n forwarding failed.' }, 
+      { status: 500 }
+    );
+  }
 }
